@@ -1,0 +1,23 @@
+name: Build FORGE-DRUM (Windows VST3)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build VST3
+        run: cmake --build build --config Release --target ForgeDrum_VST3 --parallel
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: FORGE-DRUM-VST3-Windows
+          path: build/ForgeDrum_artefacts/Release/VST3/FORGE-DRUM.vst3
